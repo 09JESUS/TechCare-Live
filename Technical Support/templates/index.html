@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+
+    <title>Technical Support</title>
+    <style>
+      /* Global Styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f6f9;
+        color: #333;
+        transition: all 0.3s ease;
+      }
+
+      /* Header */
+      header {
+        background-color: #007bff;
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      header img.logo {
+        height: 50px;
+      }
+
+      nav a {
+        margin: 0 1rem;
+        color: white;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      nav a:hover {
+        text-decoration: underline;
+        color: #e2e6ea;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: white;
+        text-align: center;
+        padding: 5rem 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .hero .cta-btn {
+        background-color: white;
+        color: #007bff;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .hero .cta-btn:hover {
+        background-color: #e2e6ea;
+        transform: scale(1.05);
+      }
+
+      /* Features Section */
+      .features {
+        max-width: 1200px;
+        margin: 3rem auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+        padding: 0 2rem;
+      }
+
+      .feature-card {
+        background: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        flex: 1 1 calc(33.333% - 2rem);
+        max-width: 300px;
+        transition: transform 0.2s, box-shadow 0.3s;
+        cursor: pointer;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .feature-card img {
+        width: 80px;
+        margin-bottom: 1rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature-card p {
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      /* Modal Styles */
+      .modal,
+      .chatbot-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 90%;
+        position: relative;
+      }
+
+      .exit-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: red;
+        color: white;
+        padding: 0.5rem;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      /* Heading */
+      .testimonials h2 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 2rem;
+        font-family: "Roboto", sans-serif;
+      }
+
+      /* The testimonial list container */
+      .testimonial-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 1.5rem;
+      }
+
+      /* Styling for the entire testimonial section */
+      .testimonials {
+        text-align: center;
+        padding: 3rem 0;
+        background-color: #f9f9f9;
+      }
+
+      .testimonial-form-container {
+        background-color: rgba(0, 0, 0, 0.7);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .testimonial-form {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        width: 400px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: left;
+      }
+
+      .testimonial-form h3 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 24px;
+      }
+
+      .testimonial-form input,
+      .testimonial-form textarea,
+      .testimonial-form select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .testimonial-form button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.3s;
+      }
+
+      .testimonial-form button:hover {
+        background-color: #0056b3;
+      }
+
+      .testimonial-form button.close-btn {
+        background-color: #f44336;
+      }
+
+      .testimonial-form button.close-btn:hover {
+        background-color: #d32f2f;
+      }
+      /* Chatbot Modal Styling */
+      .chatbot-header {
+        background: #007bff;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .chatbot-body {
+        height: 300px;
+        padding: 10px;
+        overflow-y: auto;
+        background: #f9f9f9;
+      }
+
+      .chatbot-footer {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+      }
+
+      .chatbot-footer input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .chatbot-footer button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        margin-left: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .chatbot-footer button:hover {
+        background: #0056b3;
+      }
+
+      /* User message styling */
+      .text-right .bg-blue-500 {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .text-left .bg-gray-200 {
+        background-color: #f1f1f1;
+        color: #333;
+      }
+      /* Footer */
+      footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 2rem 0;
+        margin-top: 2rem;
+      }
+
+      footer p {
+        margin: 0;
+        font-size: 0.9rem;
+      }
+
+      /* Ensure the link doesn't have any text decoration */
+      .call-link {
+        text-decoration: none;
+      }
+
+      /* Optional: Add hover effects or change cursor for better UX */
+      .call-link .feature-card {
+        cursor: pointer;
+      }
+
+      .call-link .feature-card:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header Section -->
+    <header>
+      <img src="/static/images/logo.png" alt="Logo" class="logo" />
+      <nav>
+        <a href="/">Home</a>
+        <a href="/faq">FAQs</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <h2>We're Here to Help</h2>
+      <p>Get expert technical support for all your needs, anytime, anywhere.</p>
+      <button class="cta-btn" onclick="openChatbotModal()">Get Started</button>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <a href="tel:+2762852630" class="call-link">
+        <div class="feature-card">
+          <img src="/static/images/helpdesk.png" alt="Helpdesk Icon" />
+          <h3>24/7 Support</h3>
+          <p>Our support team is available around the clock to assist you.</p>
+        </div>
+      </a>
+
+      <div class="feature-card">
+        <img src="/static/images/secure.jpg" alt="Security Icon" />
+        <h3>Secure Solutions</h3>
+        <p>We provide safe and reliable solutions to protect your data.</p>
+      </div>
+      <div class="feature-card">
+        <img src="/static/images/expert.png" alt="Expert Icon" />
+        <h3>Expert Assistance</h3>
+        <p>Get advice from experienced professionals in the field.</p>
+      </div>
+    </section>
+
+    <!-- Chatbot Modal -->
+    <div class="chatbot-modal" id="chatbotModal">
+      <div class="chatbot-header">
+        Chat Support
+        <span
+          onclick="closeChatbotModal(); toggleTestimonialForm();"
+          style="cursor: pointer"
+          >&#10006;</span
+        >
+      </div>
+      <div class="chatbot-body" id="chatOutput"></div>
+      <div class="chatbot-footer">
+        <input type="text" id="user_input" placeholder="Type your message..." />
+        <button onclick="getCohereResponse()">Send</button>
+      </div>
+    </div>
+
+    <section class="testimonials">
+      <h2>What Our Clients Say</h2>
+
+      <!-- Container to hold all testimonials -->
+      <div id="testimonial-list">
+        <!-- Testimonials will be appended here dynamically -->
+      </div>
+
+      <!-- Testimonial Form Container -->
+      <div id="testimonial-form-container" style="display: none">
+        <div class="testimonial-form">
+          <h3>Share Your Feedback</h3>
+          <form id="testimonial-form" onsubmit="submitTestimonial(event)">
+            <label for="userName">Your Name:</label>
+            <input type="text" id="userName" required />
+
+            <label for="userMessage">Your Feedback:</label>
+            <textarea id="userMessage" required></textarea>
+
+            <label for="userRating">Rate Our Service:</label>
+            <select id="userRating">
+              <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+              <option value="4">⭐⭐⭐⭐ - Good</option>
+              <option value="3">⭐⭐⭐ - Average</option>
+              <option value="2">⭐⭐ - Poor</option>
+              <option value="1">⭐ - Bad</option>
+            </select>
+
+            <button type="submit" onclick="closeTestimonialForm()">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Your other HTML content, including the chatbot modal -->
+
+    <!-- Footer Section -->
+    <footer>
+      <p>
+        &copy; 2025 Technical Support. All Rights Reserved. Designed by Forget
+        Nukeri
+      </p>
+    </footer>
+
+    <script>
+      // Function to open the chatbot modal
+      function openChatbotModal() {
+        document.getElementById("chatbotModal").style.display = "flex";
+      }
+
+      // Function to close the chatbot modal
+      function closeChatbotModal() {
+        document.getElementById("chatbotModal").style.display = "none";
+      }
+
+      // Function to get the bot's response using fetch
+      async function getCohereResponse() {
+        const userInput = document.getElementById("user_input").value.trim();
+        const chatOutput = document.getElementById("chatOutput");
+
+        // Prevent sending empty messages
+        if (!userInput) {
+          alert("Please type a message before sending.");
+          return;
+        }
+
+        // Clear the input field after sending
+        document.getElementById("user_input").value = "";
+
+        // Append the user's message to the chat
+        chatOutput.innerHTML += `<div class="text-right"><p class="bg-blue-500 text-white p-2 rounded-lg max-w-xs mx-auto">${userInput}</p></div>`;
+        chatOutput.scrollTop = chatOutput.scrollHeight; // Scroll to the bottom of the chat output
+
+        // Call your backend to get a response (modify accordingly)
+        const response = await fetch("/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `user_input=${encodeURIComponent(userInput)}`,
+        });
+
+        const data = await response.json();
+
+        // Append the bot's response to the chat output
+        chatOutput.innerHTML += `<div class="text-left"><p class="bg-gray-200 p-2 rounded-lg max-w-xs mx-auto">${data.response}</p></div>`;
+        chatOutput.scrollTop = chatOutput.scrollHeight; // Scroll to the bottom to show the latest message
+      }
+
+      // Simulated array to hold the testimonials
+      let testimonials = [];
+
+      // Function to toggle the visibility of the testimonial form
+      function toggleTestimonialForm() {
+        const formContainer = document.getElementById(
+          "testimonial-form-container"
+        );
+        formContainer.style.display =
+          formContainer.style.display === "none" ? "block" : "none";
+      }
+
+      // Function to close the testimonial form without submitting
+      function closeTestimonialForm() {
+        const formContainer = document.getElementById(
+          "testimonial-form-container"
+        );
+        formContainer.style.display = "none";
+      }
+
+      // Function to submit the testimonial and display it
+      function submitTestimonial(event) {
+        event.preventDefault();
+
+        const userName = document.getElementById("userName").value;
+        const userMessage = document.getElementById("userMessage").value;
+        const userRating = document.getElementById("userRating").value;
+
+        // Create a new testimonial object
+        const newTestimonial = {
+          name: userName,
+          message: userMessage,
+          rating: userRating,
+        };
+
+        // Add the new testimonial to the array
+        testimonials.unshift(newTestimonial); // Add to the beginning to display the latest first
+
+        // Update the displayed testimonials
+        displayTestimonials();
+
+        // Close the form after submission
+        closeTestimonialForm();
+      }
+
+      // Function to display the testimonials
+      function displayTestimonials() {
+        const testimonialList = document.getElementById("testimonial-list");
+        testimonialList.innerHTML = ""; // Clear current testimonials
+
+        // Loop through testimonials and create HTML for each
+        testimonials.forEach((testimonial) => {
+          const testimonialDiv = document.createElement("div");
+          testimonialDiv.classList.add("testimonial");
+          testimonialDiv.innerHTML = `
+        <p><strong>${testimonial.name}</strong> rated us ${"⭐".repeat(
+            testimonial.rating
+          )}</p>
+        <p>${testimonial.message}</p>
+      `;
+          testimonialList.appendChild(testimonialDiv);
+        });
+      }
+    </script>
+  </body>
+</html>
